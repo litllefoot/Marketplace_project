@@ -1,0 +1,20 @@
+:root {
+  --white-color: #ffffff;
+  --black-color: #020202;
+  --blue-color: #0156ff;
+  --red-color: #c94d3f;
+  --light-blue-color: #f5f7ff;
+  --light-grey-color: #cacdd8;
+  --dark-grey-color: #a2a6b0;
+  --yellow-color: #e9a426;
+
+  --border-filter-2px: 2px, solid var(--light-grey-color);
+  --border-filter-1px: 1px, solid var(--light-grey-color);
+  --border-radius-btn: 50px;
+
+  --font-family-base: "Poppins", sans-serif;
+  --container-width: 1398px;
+  --btn-hight-small: 37px;
+  --btn-hight-average: 50px;
+  --transition-duration: 0.2s;
+}

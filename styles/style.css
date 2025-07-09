@@ -1,0 +1,393 @@
+@charset "UTF-8";
+/** Нормализация блочной модели */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure, fieldset):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями и видео
+ */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  height: 100%;
+  /**
+    Убираем скачок интерфейса по горизонтали
+    при появлении / исчезновении скроллбара
+   */
+  scrollbar-gutter: stable;
+}
+
+/**
+  Плавный скролл
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  line-height: 1.5;
+}
+
+/**
+  Нормализация высоты элемента ссылки при его инспектировании в DevTools
+ */
+a:where([class]) {
+  display: inline-flex;
+}
+
+/**
+  Курсор-рука при наведении на элемент
+ */
+button,
+label {
+  cursor: pointer;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут fill со значением 'none' или начинается с 'url')
+ */
+:where([fill]:not([fill=none], [fill^=url])) {
+  fill: currentColor;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут stroke со значением 'none')
+ */
+:where([stroke]:not([stroke=none], [stroke^=url])) {
+  stroke: currentColor;
+}
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+  Приведение рамок таблиц в классический 'collapse' вид
+ */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../fonts/Poppins-Bold.woff2) format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../fonts/Poppins-SemiBold.woff2) format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../fonts/Poppins-Medium.woff2) format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../fonts/Poppins-Regular.woff2) format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../fonts/Poppins-Light.woff2) format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --white-color: #ffffff;
+  --black-color: #020202;
+  --blue-color: #0156ff;
+  --red-color: #c94d3f;
+  --light-blue-color: #f5f7ff;
+  --light-grey-color: #cacdd8;
+  --dark-grey-color: #a2a6b0;
+  --yellow-color: #e9a426;
+  --border-filter-2px: 2px, solid var(--light-grey-color);
+  --border-filter-1px: 1px, solid var(--light-grey-color);
+  --border-radius-btn: 50px;
+  --font-family-base: "Poppins", sans-serif;
+  --container-width: 1398px;
+  --btn-hight-small: 37px;
+  --btn-hight-average: 50px;
+  --transition-duration: 0.2s;
+}
+
+/* 
+a {
+  @include reset-link();
+} 
+  */
+/* 
+a {
+    color: inherit;
+  }
+  a, a:hover {
+    text-decoration: none;
+  } 
+    */
+/* 
+selector{
+    @extend %reset-btn
+}
+     */
+.product__main__filter, .product, .search {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.28;
+  color: var(--black-color);
+  background-color: var(--white-color);
+  width: 100vw;
+}
+
+a,
+input,
+button,
+svg * {
+  transition-duration: var(--transition-duration);
+}
+
+a {
+  color: inherit;
+}
+a, a:hover {
+  text-decoration: none;
+}
+
+.container {
+  max-width: var(--container-width);
+  margin-inline: auto;
+}
+
+.header {
+  height: 44px;
+  min-width: 100vw;
+  background-color: var(--black-color);
+}
+
+.search {
+  gap: 25px;
+  margin-block: 16px;
+}
+.search__input {
+  width: 1126px;
+  height: 60px;
+  border-radius: 31px;
+  padding: 30px;
+  background-color: var(--light-blue-color);
+  border: none;
+}
+.search__btn {
+  border: 0px solid var(--white-color);
+  background-color: var(--white-color);
+  padding: auto;
+  color: var(--blue-color);
+  width: 19px;
+  aspect-ratio: 1;
+}
+.search__profile__img {
+  border-radius: 50%;
+}
+
+.product {
+  align-items: start;
+}
+.product__filters {
+  width: 234px;
+  height: 699px;
+  background-color: var(--light-blue-color);
+}
+.product__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 5px;
+}
+.product__main__filter {
+  gap: 6px;
+}
+.product__main__filter_btn {
+  height: var(--btn-hight-small);
+  min-width: 91px;
+  background-color: var(--white-color);
+  border: 1px solid var(--light-grey-color);
+  border-radius: 2px;
+  font-weight: 600;
+  padding-inline: 17px;
+}
+.product__main__products {
+  width: 1170px;
+  height: 1280px;
+}
+
+.goods__body {
+  width: 234px;
+  height: 320px;
+  background-color: aqua;
+  padding-inline: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+.goods__list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.goods__img {
+  align-self: center;
+}
+.goods__rating {
+  width: 152px;
+  height: 30px;
+  background-color: aquamarine;
+  line-height: 30px;
+}
+.goods__title {
+  width: 185px;
+  height: 65px;
+  background-color: beige;
+  line-height: 65px;
+}
+.goods__price {
+  width: 185px;
+  height: 75px;
+  background-color: aquamarine;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 75px;
+}/*# sourceMappingURL=style.css.map */

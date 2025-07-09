@@ -1,0 +1,39 @@
+.product {
+  @extend %flex-row;
+  align-items: start;
+
+  &__filters {
+    width: 234px;
+    height: 699px;
+    background-color: var(--light-blue-color);
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 5px;
+
+    &__filter {
+      @extend %flex-row;
+      gap: 6px;
+
+      &_btn {
+        height: var(--btn-hight-small);
+        min-width: 91px;
+        background-color: var(--white-color);
+        border: 1px solid var(--light-grey-color);
+        border-radius: 2px;
+        font-weight: 600;
+        padding-inline: 17px;
+      }
+    }
+
+    &__products {
+      width: 1170px;
+      height: 1280px;
+      //background-color: aqua;
+    }
+  }
+}

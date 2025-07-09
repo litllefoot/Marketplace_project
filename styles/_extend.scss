@@ -1,0 +1,26 @@
+// Статистические большие переменные
+%reset-btn {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+}
+
+%abs-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+// Добавляем
+/* 
+selector{
+    @extend %reset-btn
+}
+     */
+
+%flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

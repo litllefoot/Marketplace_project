@@ -1,0 +1,27 @@
+.search {
+  //background-color: aqua;
+  @extend %flex-row;
+  gap: 25px;
+  margin-block: 16px;
+
+  &__input {
+    width: 1126px;
+    height: 60px;
+    border-radius: 31px;
+    padding: 30px;
+    background-color: var(--light-blue-color);
+    border: none;
+  }
+  &__btn {
+    border: 0px solid var(--white-color);
+    background-color: var(--white-color);
+    padding: auto;
+    color: var(--blue-color);
+
+    @include square(19px);
+  }
+
+  &__profile__img {
+    border-radius: 50%;
+  }
+}

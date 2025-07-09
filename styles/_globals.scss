@@ -1,0 +1,20 @@
+body {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.28; // примерное значение в хроме, чтобы в других браузерах было аналогично
+  color: var(--black-color);
+  background-color: var(--white-color);
+  width: 100vw;
+}
+
+a,
+input,
+button,
+svg * {
+  transition-duration: var(--transition-duration);
+}
+
+a {
+  @include reset-link;
+}

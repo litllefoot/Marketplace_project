@@ -1,0 +1,37 @@
+// динамические данные могут меняться. В коде идет дубль в отличие от extend
+
+@mixin fluid-text($min: 13, $max: 38) {
+  font-size: clamp(#{$min}px, #{$max/1920 * 100}vw, #{$max}px);
+}
+
+@mixin square($size) {
+  width: $size;
+  aspect-ratio: 1;
+}
+
+@mixin reset-link {
+  color: inherit; //цвет от родительского элемента
+
+  &,
+  &:hover {
+    // a, a:hover
+    text-decoration: none;
+  }
+}
+
+// Добавляем миксины вот так:
+/* 
+a {
+  @include reset-link();
+} 
+  */
+
+// Развернет вот так
+/* 
+a {
+    color: inherit;
+  }
+  a, a:hover {
+    text-decoration: none;
+  } 
+    */
