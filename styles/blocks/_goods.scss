@@ -2,7 +2,6 @@
   &__body {
     width: 234px;
     height: 320px;
-    background-color: aqua;
     padding-inline: 24px;
     display: flex;
     flex-direction: column;
@@ -21,23 +20,23 @@
   &__rating {
     width: 152px;
     height: 30px;
-    background-color: aquamarine;
     line-height: 30px;
   }
 
   &__title {
     width: 185px;
     height: 65px;
-    background-color: beige;
     line-height: 65px;
+    overflow: hidden;
   }
 
   &__price {
     width: 185px;
     height: 75px;
-    background-color: aquamarine;
     font-weight: 600;
     font-size: 18px;
     line-height: 75px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.5px;
   }
 }

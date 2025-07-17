@@ -19,6 +19,10 @@
     color: var(--blue-color);
 
     @include square(19px);
+
+    &:hover {
+      color: var(--dark-grey-color);
+    }
   }
 
   &__profile__img {
