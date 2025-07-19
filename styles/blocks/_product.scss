@@ -31,8 +31,11 @@
 
     &__products {
       width: 1170px;
-      height: 1280px;
+      //height: 1280px;
       margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     &__btn-add {
@@ -45,7 +48,7 @@
       font-weight: 600;
       font-size: 14px;
       padding: 8px 26px;
-      margin-block: 45px;
+      margin: 45px auto;
       align-self: center;
 
       &:hover {
