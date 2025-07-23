@@ -33,6 +33,20 @@ async function fillTop20Product() {
 }
 fillTop20Product();
 
+const makeGoodsCard = () => {
+  const newProductSpace = document.createElement("li");
+  newProductSpace.classList.add("goods__item");
+
+  newProductSpace.innerHTML = `<article class="goods__body">
+    <img src="" alt="product" class="goods__img" width="150" height="150" loading="lazy">
+    <span class="goods__rating"></span>
+    <span class="goods__title"></span>
+    <span class="goods__price"></span>
+  </article>`;
+
+  return newProductSpace;
+};
+
 async function addNext20Products() {
   const allProducts = await getAllProducts();
   const sortedProductsByRating = await sortProductsByRating(allProducts);
@@ -42,19 +56,21 @@ async function addNext20Products() {
   let nextTopProducts = sortedProductsByRating.slice(start, start + count);
 
   for (let i = 0; i < count; i++) {
-    let newProductSpace = document.createElement("li");
-    newProductSpace.classList.add("goods__item");
-    newProductSpace.innerHTML = `
-  <article class="goods__body">
-    <img src="${nextTopProducts[i].images[0]}" alt="product" class="goods__img" width="150" height="150" loading="lazy">
-    <span class="goods__rating">${nextTopProducts[i].rating}</span>
-    <span class="goods__title">${nextTopProducts[i].title}</span>
-    <span class="goods__price">${nextTopProducts[i].price}$</span>
-  </article>
-`;
-    document.querySelector(".goods__list").appendChild(newProductSpace);
+    const newGoodsCard = makeGoodsCard();
+    document.querySelector(".goods__list").appendChild(newGoodsCard);
+
+    newGoodsCard.querySelector(".goods__rating").innerText =
+      nextTopProducts[i].rating;
+    newGoodsCard.querySelector(".goods__title").innerText =
+      nextTopProducts[i].title;
+    newGoodsCard.querySelector(
+      ".goods__price"
+    ).innerText = `${nextTopProducts[i].price}$`;
+    newGoodsCard.querySelector(".goods__img").src =
+      nextTopProducts[i].images[0];
   }
 }
+
 document
   .querySelector(".product__main__btn-add")
   .addEventListener("click", addNext20Products);
