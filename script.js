@@ -8,17 +8,14 @@ async function getAllProducts() {
   return allProducts;
 }
 
-async function bestRatingProduct() {
-  const allProducts = await getAllProducts();
-
-  let bestRatingProduct = allProducts.toSorted((a, b) => b.rating - a.rating);
-
-  return bestRatingProduct;
+async function sortProductsByRating(products) {
+  return products.toSorted((a, b) => b.rating - a.rating);
 }
 
 async function fillTop20Product() {
-  const bestRatingProducts = await bestRatingProduct();
-  const top20bestRatingProducts = bestRatingProducts.slice(0, 20);
+  const allProducts = await getAllProducts();
+  const sortedProductsByRating = await sortProductsByRating(allProducts);
+  const top20bestRatingProducts = sortedProductsByRating.slice(0, 20);
 
   const top20ProductRatingSpace = document.querySelectorAll(".goods__rating");
   const top20ProductTitleSpace = document.querySelectorAll(".goods__title");
@@ -37,11 +34,12 @@ async function fillTop20Product() {
 fillTop20Product();
 
 async function addNext20Products() {
-  const bestRatingProducts = await bestRatingProduct();
+  const allProducts = await getAllProducts();
+  const sortedProductsByRating = await sortProductsByRating(allProducts);
 
   let count = 20;
   let start = document.querySelectorAll(".goods__body").length;
-  let nextTopProducts = bestRatingProducts.slice(start, start + count);
+  let nextTopProducts = sortedProductsByRating.slice(start, start + count);
 
   for (let i = 0; i < count; i++) {
     let newProductSpace = document.createElement("li");
