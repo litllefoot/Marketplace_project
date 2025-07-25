@@ -1,4 +1,5 @@
 @import "normalize", "fonts", "variables", "mixins", "extend", "media",
   "globals", "utilits";
 
-@import "blocks/header", "blocks/search", "blocks/product", "blocks/goods";
+@import "blocks/header", "blocks/search", "blocks/product", "blocks/goods",
+  "blocks/preloader";

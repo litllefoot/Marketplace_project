@@ -5,8 +5,9 @@
     padding-inline: 24px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: start;
+    position: relative;
   }
 
   &__list {
@@ -16,6 +17,9 @@
 
   &__img {
     align-self: center;
+    display: block;
+    width: 150px;
+    height: 150px;
   }
   &__rating {
     width: 152px;

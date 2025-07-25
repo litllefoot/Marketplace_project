@@ -21,6 +21,8 @@ async function fillTop20Product() {
   const top20ProductTitleSpace = document.querySelectorAll(".goods__title");
   const top20ProductPriceSpace = document.querySelectorAll(".goods__price");
   const top20ProductImgSpace = document.querySelectorAll(".goods__img");
+  const top20ProductPreLoaderSpace =
+    document.querySelectorAll(".goods__preloader");
 
   for (let i = 0; i < top20bestRatingProducts.length; i++) {
     top20ProductRatingSpace[i].innerText = top20bestRatingProducts[i].rating;
@@ -28,7 +30,13 @@ async function fillTop20Product() {
     top20ProductPriceSpace[
       i
     ].innerText = `${top20bestRatingProducts[i].price}$`;
-    top20ProductImgSpace[i].src = top20bestRatingProducts[i].images[0];
+
+    top20ProductImgSpace[i].src = `${top20bestRatingProducts[i].images[0]}`;
+
+    top20ProductImgSpace[i].onload = function () {
+      top20ProductPreLoaderSpace[i].style.display = "none";
+
+    };
   }
 }
 fillTop20Product();
@@ -111,3 +119,12 @@ document
       }
     }
   });
+
+/* const preloader = document.querySelector(".goods__preloader");
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    preloader.remove();
+  }, 3000);
+});
+ */

@@ -18,3 +18,8 @@ svg * {
 a {
   @include reset-link;
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}

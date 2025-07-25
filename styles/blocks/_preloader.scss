@@ -1,0 +1,40 @@
+@keyframes loading-round {
+  // точки анимации
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.goods__preloader {
+  width: 150px;
+  height: 150px;
+  display: inline-block;
+  overflow: hidden; //спрятали все выходит за пределы
+  background: #ffffff;
+  align-self: center;
+  position: absolute;
+  z-index: 200;
+
+  &__spinner {
+    position: absolute;
+    animation: loading-round 1s linear infinite;
+    // 1кая анимация,
+    //2 за сколько времени
+    //3 равномерно повторяющаяся (ease медленно, ускоряется в середине и замедляется, ease-in медленно, ускоряется, ease-out быстро замедляется)
+    //4 бесконечно делать или сделать n раз
+    width: 70px;
+    height: 70px;
+    top: 40px; // позиционирование внутри контейнера, типа отступ
+    left: 40px; // позиционирование внутри контейнера, типа отступ
+    border-radius: 50%;
+    box-shadow: 0 3px 0 0 var(--blue-color); // нарисовали прозрачный круг, дали ему тень снизу и начали его вращать по кругу вокруг себя
+    box-sizing: content-box;
+    z-index: 300;
+  }
+}

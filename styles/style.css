@@ -304,6 +304,11 @@ a, a:hover {
   text-decoration: none;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 .container {
   max-width: var(--container-width);
   margin-inline: auto;
@@ -423,12 +428,13 @@ a, a:hover {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: start;
+  position: relative;
 }
 .goods__list {
   display: grid;
@@ -437,6 +443,9 @@ a, a:hover {
 .goods__img {
   -ms-flex-item-align: center;
       align-self: center;
+  display: block;
+  width: 150px;
+  height: 150px;
 }
 .goods__rating {
   width: 152px;
@@ -457,4 +466,60 @@ a, a:hover {
   line-height: 75px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.5px;
+}
+
+@-webkit-keyframes loading-round {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes loading-round {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.goods__preloader {
+  width: 150px;
+  height: 150px;
+  display: inline-block;
+  overflow: hidden;
+  background: #ffffff;
+  -ms-flex-item-align: center;
+      align-self: center;
+  position: absolute;
+  z-index: 200;
+}
+.goods__preloader__spinner {
+  position: absolute;
+  -webkit-animation: loading-round 1s linear infinite;
+          animation: loading-round 1s linear infinite;
+  width: 70px;
+  height: 70px;
+  top: 40px;
+  left: 40px;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 3px 0 0 var(--blue-color);
+          box-shadow: 0 3px 0 0 var(--blue-color);
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  z-index: 300;
 }/*# sourceMappingURL=style.css.map */
