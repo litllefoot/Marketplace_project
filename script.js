@@ -35,7 +35,7 @@ async function fillTop20Product() {
 
     top20ProductImgSpace[i].onload = function () {
       top20ProductPreLoaderSpace[i].style.display = "none";
-
+      top20ProductPreLoaderSpace[i].remove();
     };
   }
 }
@@ -46,6 +46,9 @@ const makeGoodsCard = () => {
   newProductSpace.classList.add("goods__item");
 
   newProductSpace.innerHTML = `<article class="goods__body">
+    <div class="goods__preloader">
+      <div class="goods__preloader__spinner"></div>
+    </div>
     <img src="" alt="product" class="goods__img" width="150" height="150" loading="lazy">
     <span class="goods__rating"></span>
     <span class="goods__title"></span>
@@ -74,8 +77,14 @@ async function addNext20Products() {
     newGoodsCard.querySelector(
       ".goods__price"
     ).innerText = `${nextTopProducts[i].price}$`;
+
     newGoodsCard.querySelector(".goods__img").src =
       nextTopProducts[i].images[0];
+
+    newGoodsCard.querySelector(".goods__img").onload = function () {
+      newGoodsCard.querySelector(".goods__preloader").style.display = "none";
+      newGoodsCard.querySelector(".goods__preloader").remove();
+    };
   }
 }
 
