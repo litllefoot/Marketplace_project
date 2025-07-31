@@ -4,7 +4,7 @@ async function getAllProducts() {
   });
   const data = await res.json();
   const allProducts = data.products;
-  //console.log(allProducts);
+  console.log(allProducts);
   return allProducts;
 }
 
@@ -31,7 +31,7 @@ async function fillTop20Product() {
       i
     ].innerText = `${top20bestRatingProducts[i].price}$`;
 
-    top20ProductImgSpace[i].src = `${top20bestRatingProducts[i].images[0]}`;
+    top20ProductImgSpace[i].src = `${top20bestRatingProducts[i].thumbnail}`;
 
     top20ProductImgSpace[i].onload = function () {
       top20ProductPreLoaderSpace[i].style.display = "none";
@@ -79,7 +79,7 @@ async function addNext20Products() {
     ).innerText = `${nextTopProducts[i].price}$`;
 
     newGoodsCard.querySelector(".goods__img").src =
-      nextTopProducts[i].images[0];
+      nextTopProducts[i].thumbnail;
 
     newGoodsCard.querySelector(".goods__img").onload = function () {
       newGoodsCard.querySelector(".goods__preloader").style.display = "none";
@@ -93,14 +93,6 @@ document
   .addEventListener("click", addNext20Products);
 
 // Функции пролистывания фото при наведении
-
-document.querySelector(".goods__list").onmouseout = (e) => {
-  if (e.target.classList.contains("goods__img")) {
-    let arr = [...e.target.src];
-    arr[arr.length - 6] = 1;
-    e.target.src = arr.join("");
-  }
-};
 
 async function isImageAvailable(url) {
   try {
@@ -118,7 +110,7 @@ document
   .addEventListener("mouseover", async (e) => {
     if (e.target.className === "goods__img") {
       const firstImage = e.target.src;
-      const secondImage = e.target.src.replace("1.webp", "2.webp");
+      const secondImage = e.target.src.replace("thumbnail.webp", "2.webp");
 
       const checkImage = await isImageAvailable(secondImage);
 
@@ -129,11 +121,10 @@ document
     }
   });
 
-/* const preloader = document.querySelector(".goods__preloader");
-
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    preloader.remove();
-  }, 3000);
-});
- */
+document.querySelector(".goods__list").onmouseout = (e) => {
+  if (e.target.classList.contains("goods__img")) {
+    if (e.target.dataset.firstImage) {
+      e.target.src = e.target.dataset.firstImage;
+    }
+  }
+};
