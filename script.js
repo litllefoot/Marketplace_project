@@ -4,9 +4,112 @@ async function getAllProducts() {
   });
   const data = await res.json();
   const allProducts = data.products;
-  console.log(allProducts);
+  //console.log(allProducts);
   return allProducts;
 }
+
+const allSetSubcategoriesAndCategories = {
+  "beauty and health": ["beauty", "fragrances", "skin-care", "tablets"],
+  clothes: [
+    "mens-shirts",
+    "mens-shoes",
+    "mens-watches",
+    "sunglasses",
+    "womens-bags",
+    "womens-dresses",
+    "womens-jewellery",
+    "womens-shoes",
+    "womens-watches",
+    "tops",
+  ],
+  electronics: ["laptops", "mobile-accessories", "smartphones"],
+  "goods for house": ["furniture", "home-decoration", "kitchen-accessories"],
+  transport: ["motorcycle", "vehicle"],
+  fresh: ["groceries"],
+  sport: ["sports-accessories"],
+};
+
+async function checkOtherCategory() {
+  const allProducts = await getAllProducts();
+
+  const allCategoriesFromApi = Array.from(
+    new Set(allProducts.map((item) => item.category))
+  );
+  const allSetCategories = Object.values(
+    allSetSubcategoriesAndCategories
+  ).flat();
+
+  let otherCategory = [];
+
+  for (const item of allCategoriesFromApi) {
+    if (!allSetCategories.includes(item)) {
+      otherCategory.push(item);
+    }
+  }
+  return otherCategory;
+}
+checkOtherCategory();
+
+async function fillSubcategories() {
+  const setSubcategories = Object.keys(allSetSubcategoriesAndCategories);
+  for (const element of setSubcategories) {
+    let newSubcategoriesSpace = document.createElement("li");
+    newSubcategoriesSpace.classList.add("product__filters__item");
+    newSubcategoriesSpace.innerText = element;
+    document
+      .querySelector(".product__filters__list")
+      .appendChild(newSubcategoriesSpace);
+  }
+  const otherSubategory = await checkOtherCategory();
+
+  if (isNaN(otherSubategory)) {
+    let newSubcategoriesSpace = document.createElement("li");
+    newSubcategoriesSpace.classList.add("product__filters__item");
+    newSubcategoriesSpace.innerText = "other";
+    document
+      .querySelector(".product__filters__list")
+      .appendChild(newSubcategoriesSpace);
+  }
+
+  let subcategories = document.getElementsByClassName("product__filters__item");
+  for (const element of subcategories) {
+    let arrOfCategories = allSetSubcategoriesAndCategories[element.innerText];
+    for (const item of arrOfCategories) {
+      let category = document.createElement("div");
+      category.classList.add("product__filters__item__category");
+      category.classList.add("visually-hidden");
+      category.innerText = item;
+      element.appendChild(category);
+    }
+  }
+}
+fillSubcategories();
+
+function dropDownListCategories(event) {
+  if (event.target !== this) return;
+  if (this.children.length > 0) {
+    Array.from(this.children).forEach((item) =>
+      item.classList.toggle("visually-hidden")
+    );
+  }
+}
+
+const subCategories = document.querySelectorAll(".product__filters__item");
+subCategories.forEach((element) => (element.onclick = dropDownListCategories));
+
+async function filterByCategory(e) {
+  const allProducts = await getAllProducts();
+  const sortedProductsByRating = await sortProductsByRating(allProducts);
+  if (e.target.classList.contains("product__filters__item__category")) {
+    let selectedСategory = e.target.innerText;
+
+    let result = sortedProductsByRating.filter(
+      (item) => item.category === selectedСategory
+    );
+    console.log(result);
+  }
+}
+document.addEventListener("click", filterByCategory);
 
 async function sortProductsByRating(products) {
   return products.toSorted((a, b) => b.rating - a.rating);

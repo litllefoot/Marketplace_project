@@ -1,0 +1,26 @@
+.product__filters {
+  padding-inline: 17px;
+  padding-block: 20px;
+
+  &__list {
+    font-weight: 600;
+    font-size: 14px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__item {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 210%;
+
+    &__category {
+      margin-left: 20px;
+    }
+  }
+}
+
+.visually-hidden {
+  display: none;
+}
