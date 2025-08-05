@@ -314,6 +314,10 @@ img {
   margin-inline: auto;
 }
 
+.visually-hidden {
+  display: none;
+}
+
 .header {
   height: 44px;
   min-width: 100vw;
@@ -443,7 +447,6 @@ img {
 .goods__img {
   -ms-flex-item-align: center;
       align-self: center;
-  display: block;
   width: 150px;
   height: 150px;
 }
@@ -542,8 +545,4 @@ img {
 }
 .product__filters__item__category {
   margin-left: 20px;
-}
-
-.visually-hidden {
-  display: none;
 }/*# sourceMappingURL=style.css.map */

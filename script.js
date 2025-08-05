@@ -97,6 +97,52 @@ function dropDownListCategories(event) {
 const subCategories = document.querySelectorAll(".product__filters__item");
 subCategories.forEach((element) => (element.onclick = dropDownListCategories));
 
+async function sortProductsByRating(products) {
+  return products.toSorted((a, b) => b.rating - a.rating);
+}
+
+function fillTop20Product(arrOfFilteredProducts) {
+  const top20ProductRatingSpace = document.querySelectorAll(".goods__rating");
+  const top20ProductTitleSpace = document.querySelectorAll(".goods__title");
+  const top20ProductPriceSpace = document.querySelectorAll(".goods__price");
+  const top20ProductImgSpace = document.querySelectorAll(".goods__img");
+  const top20ProductPreLoaderSpace =
+    document.querySelectorAll(".goods__preloader");
+
+  for (let i = 0; i < top20ProductTitleSpace.length; i++) {
+    top20ProductRatingSpace[i].innerText = "";
+    top20ProductTitleSpace[i].innerText = "";
+    top20ProductPriceSpace[i].innerText = "";
+
+    top20ProductImgSpace[i].src = ``;
+    //top20ProductImgSpace[i].classList.add("visually-hidden");
+  }
+
+  for (
+    let i = 0;
+    i < arrOfFilteredProducts.length && i < top20ProductTitleSpace.length;
+    i++
+  ) {
+    top20ProductRatingSpace[i].innerText = arrOfFilteredProducts[i].rating;
+    top20ProductTitleSpace[i].innerText = arrOfFilteredProducts[i].title;
+    top20ProductPriceSpace[i].innerText = `${arrOfFilteredProducts[i].price}$`;
+    top20ProductImgSpace[i].src = `${arrOfFilteredProducts[i].thumbnail}`;
+
+    top20ProductImgSpace[i].onload = function () {
+      top20ProductPreLoaderSpace[i].style.display = "none";
+      top20ProductPreLoaderSpace[i].remove();
+    };
+  }
+}
+
+async function fillTop20ProductByRating() {
+  const allProducts = await getAllProducts();
+  const sortedProductsByRating = await sortProductsByRating(allProducts);
+  const top20bestRatingProducts = sortedProductsByRating.slice(0, 20);
+  fillTop20Product(top20bestRatingProducts);
+}
+fillTop20ProductByRating();
+
 async function filterByCategory(e) {
   const allProducts = await getAllProducts();
   const sortedProductsByRating = await sortProductsByRating(allProducts);
@@ -106,43 +152,11 @@ async function filterByCategory(e) {
     let result = sortedProductsByRating.filter(
       (item) => item.category === selectedСategory
     );
-    console.log(result);
+    //console.log(result);
+    fillTop20Product(result);
   }
 }
 document.addEventListener("click", filterByCategory);
-
-async function sortProductsByRating(products) {
-  return products.toSorted((a, b) => b.rating - a.rating);
-}
-
-async function fillTop20Product() {
-  const allProducts = await getAllProducts();
-  const sortedProductsByRating = await sortProductsByRating(allProducts);
-  const top20bestRatingProducts = sortedProductsByRating.slice(0, 20);
-
-  const top20ProductRatingSpace = document.querySelectorAll(".goods__rating");
-  const top20ProductTitleSpace = document.querySelectorAll(".goods__title");
-  const top20ProductPriceSpace = document.querySelectorAll(".goods__price");
-  const top20ProductImgSpace = document.querySelectorAll(".goods__img");
-  const top20ProductPreLoaderSpace =
-    document.querySelectorAll(".goods__preloader");
-
-  for (let i = 0; i < top20bestRatingProducts.length; i++) {
-    top20ProductRatingSpace[i].innerText = top20bestRatingProducts[i].rating;
-    top20ProductTitleSpace[i].innerText = top20bestRatingProducts[i].title;
-    top20ProductPriceSpace[
-      i
-    ].innerText = `${top20bestRatingProducts[i].price}$`;
-
-    top20ProductImgSpace[i].src = `${top20bestRatingProducts[i].thumbnail}`;
-
-    top20ProductImgSpace[i].onload = function () {
-      top20ProductPreLoaderSpace[i].style.display = "none";
-      top20ProductPreLoaderSpace[i].remove();
-    };
-  }
-}
-fillTop20Product();
 
 const makeGoodsCard = () => {
   const newProductSpace = document.createElement("li");
