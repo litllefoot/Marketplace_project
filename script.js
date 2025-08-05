@@ -20,7 +20,6 @@ const allSetSubcategoriesAndCategories = {
     "womens-jewellery",
     "womens-shoes",
     "womens-watches",
-    "tops",
   ],
   electronics: ["laptops", "mobile-accessories", "smartphones", "tablets"],
   "goods for house": ["furniture", "home-decoration", "kitchen-accessories"],
@@ -85,9 +84,7 @@ async function fillSubcategories() {
   const otherSubcategoryArr = await checkOtherCategory();
   if (isNaN(otherSubcategoryArr)) {
     let subCategoryOther = makeSubCategory("other");
-    console.log(subCategoryOther);
     for (const element of otherSubcategoryArr) {
-      console.log(element);
       makeCategory(element, subCategoryOther);
     }
   }
@@ -112,6 +109,7 @@ function dropDownListCategories(event) {
     this.hasAttribute("open")
       ? this.classList.add("product__filters__item__active")
       : this.classList.remove("product__filters__item__active");
+
     Array.from(this.children).forEach((item) =>
       item.classList.toggle("visually-hidden")
     );
@@ -136,7 +134,6 @@ function fillTop20Product(arrOfFilteredProducts) {
     top20ProductPriceSpace[i].innerText = "";
 
     top20ProductImgSpace[i].src = ``;
-    //top20ProductImgSpace[i].classList.add("visually-hidden");
   }
 
   for (
@@ -173,7 +170,18 @@ async function filterByCategory(e) {
     let result = sortedProductsByRating.filter(
       (item) => item.category === selectedСategory
     );
-    //console.log(result);
+
+    let allArticle = document.querySelectorAll(".goods__body");
+    for (const element of allArticle) {
+      element.innerHTML = `<div class="goods__preloader">
+      <div class="goods__preloader__spinner"></div>
+    </div>
+    <img src="" alt="product" class="goods__img" width="150" height="150" loading="lazy">
+    <span class="goods__rating"></span>
+    <span class="goods__title"></span>
+    <span class="goods__price"></span>`;
+    }
+
     fillTop20Product(result);
   }
 }
