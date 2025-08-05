@@ -50,36 +50,39 @@ async function checkOtherCategory() {
 }
 checkOtherCategory();
 
+function makeSubCategory(subcategoryName) {
+  let newSubcategoriesSpace = document.createElement("li");
+  newSubcategoriesSpace.classList.add("product__filters__item");
+  newSubcategoriesSpace.innerText = subcategoryName;
+  document
+    .querySelector(".product__filters__list")
+    .appendChild(newSubcategoriesSpace);
+}
+
+function makeCategory(categoryName, subcategory) {
+  let category = document.createElement("div");
+  category.classList.add("product__filters__item__category");
+  category.classList.add("visually-hidden");
+  category.innerText = categoryName;
+  subcategory.appendChild(category);
+}
+
 async function fillSubcategories() {
   const setSubcategories = Object.keys(allSetSubcategoriesAndCategories);
   for (const element of setSubcategories) {
-    let newSubcategoriesSpace = document.createElement("li");
-    newSubcategoriesSpace.classList.add("product__filters__item");
-    newSubcategoriesSpace.innerText = element;
-    document
-      .querySelector(".product__filters__list")
-      .appendChild(newSubcategoriesSpace);
+    makeSubCategory(element);
   }
   const otherSubategory = await checkOtherCategory();
 
   if (isNaN(otherSubategory)) {
-    let newSubcategoriesSpace = document.createElement("li");
-    newSubcategoriesSpace.classList.add("product__filters__item");
-    newSubcategoriesSpace.innerText = "other";
-    document
-      .querySelector(".product__filters__list")
-      .appendChild(newSubcategoriesSpace);
+    makeSubCategory("other");
   }
 
   let subcategories = document.getElementsByClassName("product__filters__item");
   for (const element of subcategories) {
     let arrOfCategories = allSetSubcategoriesAndCategories[element.innerText];
     for (const item of arrOfCategories) {
-      let category = document.createElement("div");
-      category.classList.add("product__filters__item__category");
-      category.classList.add("visually-hidden");
-      category.innerText = item;
-      element.appendChild(category);
+      makeCategory(item, element);
     }
   }
 }
