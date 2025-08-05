@@ -13,6 +13,7 @@ input,
 button,
 svg * {
   transition-duration: var(--transition-duration);
+  user-select: none;
 }
 
 a {

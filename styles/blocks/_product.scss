@@ -50,6 +50,7 @@
       padding: 8px 26px;
       margin: 45px auto;
       align-self: center;
+      transition-duration: var(--transition-duration);
 
       &:hover {
         background-color: var(--dark-grey-color);

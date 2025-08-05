@@ -9,7 +9,7 @@ async function getAllProducts() {
 }
 
 const allSetSubcategoriesAndCategories = {
-  "beauty and health": ["beauty", "fragrances", "skin-care", "tablets"],
+  "beauty and health": ["beauty", "fragrances", "skin-care"],
   clothes: [
     "mens-shirts",
     "mens-shoes",
@@ -20,8 +20,9 @@ const allSetSubcategoriesAndCategories = {
     "womens-jewellery",
     "womens-shoes",
     "womens-watches",
+    "tops",
   ],
-  electronics: ["laptops", "mobile-accessories", "smartphones"],
+  electronics: ["laptops", "mobile-accessories", "smartphones", "tablets"],
   "goods for house": ["furniture", "home-decoration", "kitchen-accessories"],
   transport: ["motorcycle", "vehicle"],
   fresh: ["groceries"],
@@ -95,8 +96,6 @@ async function fillSubcategories() {
     document.getElementsByClassName("product__filters__item")
   );
 
-  console.log(subCategories);
-
   subCategories.forEach(
     (element) => (element.onclick = dropDownListCategories)
   );
@@ -106,6 +105,13 @@ fillSubcategories();
 function dropDownListCategories(event) {
   if (event.target !== this) return;
   if (this.children.length > 0) {
+    this.hasAttribute("open")
+      ? this.removeAttribute("open")
+      : this.setAttribute("open", "true");
+
+    this.hasAttribute("open")
+      ? this.classList.add("product__filters__item__active")
+      : this.classList.remove("product__filters__item__active");
     Array.from(this.children).forEach((item) =>
       item.classList.toggle("visually-hidden")
     );

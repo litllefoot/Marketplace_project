@@ -5,18 +5,46 @@
   &__list {
     font-weight: 600;
     font-size: 14px;
-    &:hover {
-      cursor: pointer;
-    }
+    user-select: none;
   }
 
   &__item {
     font-weight: 400;
     font-size: 13px;
     line-height: 210%;
+    transition-duration: var();
+    position: relative;
+
+    &:hover {
+      color: var(--blue-color);
+      cursor: pointer;
+    }
+
+    &::before {
+      content: "";
+      @include square(20px);
+      top: 0%;
+      left: 90%;
+      translate: 0% 50%;
+      position: absolute;
+      background-image: url(/images/category-indicator.svg);
+      background-repeat: no-repeat;
+      background-position: 100% 100%;
+      transform: rotate(180deg);
+    }
+
+    &__active::before {
+      transform: rotate(0deg);
+      background-position: 0% 0%;
+    }
 
     &__category {
       margin-left: 20px;
+      color: var(--black-color);
+      transition-duration: var();
+      &:hover {
+        color: var(--blue-color);
+      }
     }
   }
 }
