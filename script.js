@@ -3,12 +3,10 @@ async function getAllProducts() {
     method: "GET",
   });
   const data = await res.json();
-  const allProducts = data.products;
-  //console.log(allProducts);
-  return allProducts;
+  return data.products;
 }
 
-const allSetSubcategoriesAndCategories = {
+const shopCategories = {
   "beauty and health": ["beauty", "fragrances", "skin-care"],
   clothes: [
     "mens-shirts",
@@ -34,9 +32,7 @@ async function checkOtherCategory() {
   const allCategoriesFromApi = Array.from(
     new Set(allProducts.map((item) => item.category))
   );
-  const allSetCategories = Object.values(
-    allSetSubcategoriesAndCategories
-  ).flat();
+  const allSetCategories = Object.values(shopCategories).flat();
 
   let otherCategory = [];
 
@@ -50,7 +46,7 @@ async function checkOtherCategory() {
 checkOtherCategory();
 
 function makeSubCategory(subcategoryName) {
-  let newSubcategoriesSpace = document.createElement("li");
+  const newSubcategoriesSpace = document.createElement("li");
   newSubcategoriesSpace.classList.add("product__filters__item");
   newSubcategoriesSpace.innerText = subcategoryName;
   document
@@ -60,30 +56,31 @@ function makeSubCategory(subcategoryName) {
 }
 
 function makeCategory(categoryName, subcategory) {
-  let category = document.createElement("div");
-  category.classList.add("product__filters__item__category");
-  category.classList.add("visually-hidden");
+  const category = document.createElement("div");
+  category.classList.add("product__filters__item__category", "visually-hidden");
   category.innerText = categoryName;
   subcategory.appendChild(category);
 }
 
 async function fillSubcategories() {
-  const setSubcategories = Object.keys(allSetSubcategoriesAndCategories);
-  for (const element of setSubcategories) {
+  const subcategoriesSet = Object.keys(shopCategories);
+  for (const element of subcategoriesSet) {
     makeSubCategory(element);
   }
 
-  let subcategories = document.getElementsByClassName("product__filters__item");
+  const subcategories = document.getElementsByClassName(
+    "product__filters__item"
+  );
   for (const element of subcategories) {
-    let arrOfCategories = allSetSubcategoriesAndCategories[element.innerText];
+    const arrOfCategories = shopCategories[element.innerText];
     for (const item of arrOfCategories) {
       makeCategory(item, element);
     }
   }
 
   const otherSubcategoryArr = await checkOtherCategory();
-  if (isNaN(otherSubcategoryArr)) {
-    let subCategoryOther = makeSubCategory("other");
+  if (otherSubcategoryArr.length !== 0) {
+    const subCategoryOther = makeSubCategory("other");
     for (const element of otherSubcategoryArr) {
       makeCategory(element, subCategoryOther);
     }
@@ -102,13 +99,13 @@ fillSubcategories();
 function dropDownListCategories(event) {
   if (event.target !== this) return;
   if (this.children.length > 0) {
-    this.hasAttribute("open")
-      ? this.removeAttribute("open")
-      : this.setAttribute("open", "true");
-
-    this.hasAttribute("open")
-      ? this.classList.add("product__filters__item__active")
-      : this.classList.remove("product__filters__item__active");
+    if (this.hasAttribute("open")) {
+      this.removeAttribute("open");
+      this.classList.add("product__filters__item__active");
+    } else {
+      this.setAttribute("open", "true");
+      this.classList.remove("product__filters__item__active");
+    }
 
     Array.from(this.children).forEach((item) =>
       item.classList.toggle("visually-hidden")
@@ -153,13 +150,13 @@ function fillTop20Product(arrOfFilteredProducts) {
   }
 }
 
-async function fillTop20ProductByRating() {
+async function fillTopXProductByRating(x = 20) {
   const allProducts = await getAllProducts();
   const sortedProductsByRating = await sortProductsByRating(allProducts);
-  const top20bestRatingProducts = sortedProductsByRating.slice(0, 20);
+  const top20bestRatingProducts = sortedProductsByRating.slice(0, x);
   fillTop20Product(top20bestRatingProducts);
 }
-fillTop20ProductByRating();
+fillTopXProductByRating();
 
 async function filterByCategory(e) {
   const allProducts = await getAllProducts();
@@ -267,10 +264,10 @@ document
     }
   });
 
-document.querySelector(".goods__list").onmouseout = (e) => {
+document.querySelector(".goods__list").addEventListener("mouseout", (e) => {
   if (e.target.classList.contains("goods__img")) {
     if (e.target.dataset.firstImage) {
       e.target.src = e.target.dataset.firstImage;
     }
   }
-};
+});
