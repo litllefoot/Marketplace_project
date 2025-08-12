@@ -59,6 +59,7 @@ function makeCategory(categoryName, subcategory) {
   const category = document.createElement("div");
   category.classList.add("product__filters__item__category", "visually-hidden");
   category.innerText = categoryName;
+  category.addEventListener("click", filterByCategory);
   subcategory.appendChild(category);
 }
 
@@ -113,7 +114,7 @@ function dropDownListCategories(event) {
   }
 }
 
-async function sortProductsByRating(products) {
+function sortProductsByRating(products) {
   return products.toSorted((a, b) => b.rating - a.rating);
 }
 
@@ -152,7 +153,7 @@ function fillTop20Product(arrOfFilteredProducts) {
 
 async function fillTopXProductByRating(x = 20) {
   const allProducts = await getAllProducts();
-  const sortedProductsByRating = await sortProductsByRating(allProducts);
+  const sortedProductsByRating = sortProductsByRating(allProducts);
   const top20bestRatingProducts = sortedProductsByRating.slice(0, x);
   fillTop20Product(top20bestRatingProducts);
 }
@@ -160,7 +161,7 @@ fillTopXProductByRating();
 
 async function filterByCategory(e) {
   const allProducts = await getAllProducts();
-  const sortedProductsByRating = await sortProductsByRating(allProducts);
+  const sortedProductsByRating = sortProductsByRating(allProducts);
   if (e.target.classList.contains("product__filters__item__category")) {
     let selectedСategory = e.target.innerText;
 
@@ -182,7 +183,6 @@ async function filterByCategory(e) {
     fillTop20Product(result);
   }
 }
-document.addEventListener("click", filterByCategory);
 
 const makeGoodsCard = () => {
   const newProductSpace = document.createElement("li");
@@ -203,7 +203,7 @@ const makeGoodsCard = () => {
 
 async function addNext20Products() {
   const allProducts = await getAllProducts();
-  const sortedProductsByRating = await sortProductsByRating(allProducts);
+  const sortedProductsByRating = sortProductsByRating(allProducts);
 
   let count = 20;
   let start = document.querySelectorAll(".goods__body").length;
