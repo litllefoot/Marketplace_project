@@ -181,6 +181,11 @@ async function filterByCategory(e) {
     }
 
     fillTop20Product(result);
+
+    document.querySelectorAll(".product__main__filter_btn")[1].innerText =
+      selectedСategory;
+    document.querySelectorAll(".product__main__filter_btn")[0].innerText =
+      e.target.parentElement.childNodes[0].textContent;
   }
 }
 
@@ -235,6 +240,11 @@ document
   .querySelector(".product__main__btn-add")
   .addEventListener("click", addNext20Products);
 
+document
+  .querySelectorAll(".product__main__filter_btn")[2]
+  .addEventListener("click", () => {
+    fillTopXProductByRating();
+  });
 // Функции пролистывания фото при наведении
 
 async function isImageAvailable(url) {
