@@ -118,6 +118,23 @@ function sortProductsByRating(products) {
   return products.toSorted((a, b) => b.rating - a.rating);
 }
 
+const makeGoodsCard = () => {
+  const newProductSpace = document.createElement("li");
+  newProductSpace.classList.add("goods__item");
+
+  newProductSpace.innerHTML = `<article class="goods__body">
+    <div class="goods__preloader">
+      <div class="goods__preloader__spinner"></div>
+    </div>
+    <img src="" alt="product" class="goods__img" width="150" height="150" loading="lazy">
+    <span class="goods__rating"></span>
+    <span class="goods__title"></span>
+    <span class="goods__price"></span>
+  </article>`;
+  document.querySelector(".goods__list").appendChild(newProductSpace);
+  return newProductSpace;
+};
+
 function fillTop20Product(arrOfFilteredProducts) {
   const top20ProductRatingSpace = document.querySelectorAll(".goods__rating");
   const top20ProductTitleSpace = document.querySelectorAll(".goods__title");
@@ -130,7 +147,6 @@ function fillTop20Product(arrOfFilteredProducts) {
     top20ProductRatingSpace[i].innerText = "";
     top20ProductTitleSpace[i].innerText = "";
     top20ProductPriceSpace[i].innerText = "";
-
     top20ProductImgSpace[i].src = ``;
   }
 
@@ -155,6 +171,10 @@ async function fillTopXProductByRating(x = 20) {
   const allProducts = await getAllProducts();
   const sortedProductsByRating = sortProductsByRating(allProducts);
   const top20bestRatingProducts = sortedProductsByRating.slice(0, x);
+  for (let i = 0; i < top20bestRatingProducts.length; i++) {
+    const newGoodsCard = makeGoodsCard();
+  }
+
   fillTop20Product(top20bestRatingProducts);
 }
 fillTopXProductByRating();
@@ -188,23 +208,6 @@ async function filterByCategory(e) {
       e.target.parentElement.childNodes[0].textContent;
   }
 }
-
-const makeGoodsCard = () => {
-  const newProductSpace = document.createElement("li");
-  newProductSpace.classList.add("goods__item");
-
-  newProductSpace.innerHTML = `<article class="goods__body">
-    <div class="goods__preloader">
-      <div class="goods__preloader__spinner"></div>
-    </div>
-    <img src="" alt="product" class="goods__img" width="150" height="150" loading="lazy">
-    <span class="goods__rating"></span>
-    <span class="goods__title"></span>
-    <span class="goods__price"></span>
-  </article>`;
-
-  return newProductSpace;
-};
 
 async function addNext20Products() {
   const allProducts = await getAllProducts();
@@ -243,8 +246,10 @@ document
 document
   .querySelectorAll(".product__main__filter_btn")[2]
   .addEventListener("click", () => {
+    document.querySelector(".goods__list").replaceChildren();
     fillTopXProductByRating();
   });
+
 // Функции пролистывания фото при наведении
 
 async function isImageAvailable(url) {
