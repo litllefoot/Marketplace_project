@@ -135,7 +135,7 @@ const makeGoodsCard = () => {
   return newProductSpace;
 };
 
-function fillTop20Product(arrOfFilteredProducts) {
+function fillProductCards(arrOfFilteredProducts) {
   const top20ProductRatingSpace = document.querySelectorAll(".goods__rating");
   const top20ProductTitleSpace = document.querySelectorAll(".goods__title");
   const top20ProductPriceSpace = document.querySelectorAll(".goods__price");
@@ -168,7 +168,7 @@ async function fillTopXProductByRating(x = 20) {
     const newGoodsCard = makeGoodsCard();
   }
 
-  fillTop20Product(top20bestRatingProducts);
+  fillProductCards(top20bestRatingProducts);
 }
 fillTopXProductByRating();
 
@@ -187,7 +187,7 @@ async function filterByCategory(e) {
       makeGoodsCard();
     }
 
-    fillTop20Product(result);
+    fillProductCards(result);
 
     document.querySelectorAll(".product__main__filter_btn")[1].innerText =
       selectedСategory;
