@@ -170,19 +170,21 @@ async function fillTopXProductByRating(x = 20) {
   const sortedProductsByRating = sortProductsByRating(allProducts);
   const top20bestRatingProducts = sortedProductsByRating.slice(0, x);
   for (let i = 0; i < top20bestRatingProducts.length; i++) {
-    const newGoodsCard = makeGoodsCard();
+    makeGoodsCard();
   }
 
   fillProductCards(top20bestRatingProducts);
+  currentCategory = null;
 }
 fillTopXProductByRating();
 
 async function filterByCategory(e) {
-  const allProducts = await getAllProducts();
-  const sortedProductsByRating = sortProductsByRating(allProducts);
   if (e.target.classList.contains("product__filters__item__category")) {
-    let selectedСategory = e.target.innerText;
+    const allProducts = await getAllProducts();
+    const sortedProductsByRating = sortProductsByRating(allProducts);
 
+    let selectedСategory = e.target.innerText;
+    currentCategory = selectedСategory;
     let result = sortedProductsByRating.filter(
       (item) => item.category === selectedСategory
     );
@@ -204,12 +206,18 @@ async function filterByCategory(e) {
 async function addNext20Products() {
   const allProducts = await getAllProducts();
   const sortedProductsByRating = sortProductsByRating(allProducts);
+  let productToShow = sortedProductsByRating;
+
+  if (currentCategory) {
+    productToShow = sortedProductsByRating.filter(
+      (item) => item.category === currentCategory
+    );
+  }
 
   let count = 20;
   let start = document.querySelectorAll(".goods__body").length;
-  let nextTopProducts = sortedProductsByRating.slice(start, start + count);
-
-  for (let i = 0; i < count; i++) {
+  let nextTopProducts = productToShow.slice(start, start + count);
+  for (let i = 0; i < count && i < nextTopProducts.length; i++) {
     const newGoodsCard = makeGoodsCard();
     document.querySelector(".goods__list").appendChild(newGoodsCard);
 
@@ -245,6 +253,7 @@ document
       "Category";
     document.querySelectorAll(".product__main__filter_btn")[0].innerText =
       "Subcategory";
+    currentCategory = null;
   });
 
 // Функции пролистывания фото при наведении
