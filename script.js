@@ -143,13 +143,6 @@ function fillTop20Product(arrOfFilteredProducts) {
   const top20ProductPreLoaderSpace =
     document.querySelectorAll(".goods__preloader");
 
-  for (let i = 0; i < top20ProductTitleSpace.length; i++) {
-    top20ProductRatingSpace[i].innerText = "";
-    top20ProductTitleSpace[i].innerText = "";
-    top20ProductPriceSpace[i].innerText = "";
-    top20ProductImgSpace[i].src = ``;
-  }
-
   for (
     let i = 0;
     i < arrOfFilteredProducts.length && i < top20ProductTitleSpace.length;
@@ -189,15 +182,9 @@ async function filterByCategory(e) {
       (item) => item.category === selectedСategory
     );
 
-    let allArticle = document.querySelectorAll(".goods__body");
-    for (const element of allArticle) {
-      element.innerHTML = `<div class="goods__preloader">
-      <div class="goods__preloader__spinner"></div>
-    </div>
-    <img src="" alt="product" class="goods__img" width="150" height="150" loading="lazy">
-    <span class="goods__rating"></span>
-    <span class="goods__title"></span>
-    <span class="goods__price"></span>`;
+    document.querySelector(".goods__list").replaceChildren();
+    for (let i = 0; i < result.length; i++) {
+      makeGoodsCard();
     }
 
     fillTop20Product(result);
@@ -243,11 +230,16 @@ document
   .querySelector(".product__main__btn-add")
   .addEventListener("click", addNext20Products);
 
+//Кнопка Clear
 document
   .querySelectorAll(".product__main__filter_btn")[2]
   .addEventListener("click", () => {
     document.querySelector(".goods__list").replaceChildren();
     fillTopXProductByRating();
+    document.querySelectorAll(".product__main__filter_btn")[1].innerText =
+      "Category";
+    document.querySelectorAll(".product__main__filter_btn")[0].innerText =
+      "Subcategory";
   });
 
 // Функции пролистывания фото при наведении
