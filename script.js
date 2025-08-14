@@ -165,6 +165,25 @@ function fillProductCards(arrOfFilteredProducts) {
   }
 }
 
+function displayAddBtn() {
+  let btnAdd = document.querySelector(".product__main__btn-add");
+  let cardDisplayed = document.querySelectorAll(".goods__item").length;
+  if (currentCategory) {
+    let categoryLength = allProductsGlobal.filter(
+      (item) => item.category === currentCategory
+    ).length;
+
+    categoryLength > cardDisplayed
+      ? (btnAdd.style.display = "block")
+      : (btnAdd.style.display = "none");
+  } else {
+    let allProductsLength = allProductsGlobal.length;
+    allProductsLength > cardDisplayed
+      ? (btnAdd.style.display = "block")
+      : (btnAdd.style.display = "none");
+  }
+}
+
 async function fillTopXProductByRating(x = 20) {
   const allProducts = await getAllProducts();
   const sortedProductsByRating = sortProductsByRating(allProducts);
@@ -175,7 +194,10 @@ async function fillTopXProductByRating(x = 20) {
 
   fillProductCards(top20bestRatingProducts);
   currentCategory = null;
-}
+
+  displayAddBtn();
+} 
+
 fillTopXProductByRating();
 
 async function filterByCategory(e) {
@@ -190,7 +212,9 @@ async function filterByCategory(e) {
     );
 
     document.querySelector(".goods__list").replaceChildren();
-    for (let i = 0; i < result.length; i++) {
+
+    let quantityOfProduct = result.length > 20 ? 20 : result.length;
+    for (let i = 0; i < quantityOfProduct; i++) {
       makeGoodsCard();
     }
 
@@ -200,9 +224,10 @@ async function filterByCategory(e) {
       selectedСategory;
     document.querySelectorAll(".product__main__filter_btn")[0].innerText =
       e.target.parentElement.childNodes[0].textContent;
-  }
-}
 
+    displayAddBtn();
+  }
+} 
 async function addNext20Products() {
   const allProducts = await getAllProducts();
   const sortedProductsByRating = sortProductsByRating(allProducts);
@@ -237,7 +262,9 @@ async function addNext20Products() {
       newGoodsCard.querySelector(".goods__preloader").remove();
     };
   }
-}
+
+  displayAddBtn();
+} 
 
 document
   .querySelector(".product__main__btn-add")
@@ -254,7 +281,9 @@ document
     document.querySelectorAll(".product__main__filter_btn")[0].innerText =
       "Subcategory";
     currentCategory = null;
-  });
+
+    displayAddBtn();
+  }); 
 
 // Функции пролистывания фото при наведении
 
