@@ -1,9 +1,14 @@
+let allProductsGlobal = null;
+let currentCategory = null;
+
 async function getAllProducts() {
+  if (allProductsGlobal) return allProductsGlobal;
   const res = await fetch("https://dummyjson.com/products/?limit=194", {
     method: "GET",
   });
   const data = await res.json();
-  return data.products;
+  allProductsGlobal = data.products;
+  return allProductsGlobal;
 }
 
 const shopCategories = {
