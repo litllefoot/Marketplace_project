@@ -196,7 +196,7 @@ async function fillTopXProductByRating(x = 20) {
   currentCategory = null;
 
   displayAddBtn();
-} 
+}
 
 fillTopXProductByRating();
 
@@ -227,7 +227,7 @@ async function filterByCategory(e) {
 
     displayAddBtn();
   }
-} 
+}
 async function addNext20Products() {
   const allProducts = await getAllProducts();
   const sortedProductsByRating = sortProductsByRating(allProducts);
@@ -264,7 +264,7 @@ async function addNext20Products() {
   }
 
   displayAddBtn();
-} 
+}
 
 document
   .querySelector(".product__main__btn-add")
@@ -283,7 +283,7 @@ document
     currentCategory = null;
 
     displayAddBtn();
-  }); 
+  });
 
 // Функции пролистывания фото при наведении
 
@@ -320,4 +320,40 @@ document.querySelector(".goods__list").addEventListener("mouseout", (e) => {
       e.target.src = e.target.dataset.firstImage;
     }
   }
+});
+
+async function searchByKey() {
+  const allProducts = await getAllProducts();
+  const sortedProductsByRating = sortProductsByRating(allProducts);
+
+  const sortedProductsToLowerCase = sortedProductsByRating.map((item) => {
+    return {
+      ...item,
+      title: item.title.toLowerCase(),
+      category: item.category.toLowerCase(),
+      description: item.description.toLowerCase() ?? "",
+      brand: item.brand?.toLowerCase() ?? "",
+      tags: item.tags.join(" ").toLowerCase() ?? "",
+    };
+  });
+  console.log(sortedProductsByRating);
+  console.log(sortedProductsToLowerCase);
+  const keyWord = this.value.toLowerCase();
+
+  const productsByKeyWord = sortedProductsToLowerCase.filter(
+    (item) =>
+      item.title.includes(keyWord) ||
+      item.category.includes(keyWord) ||
+      item.description.includes(keyWord) ||
+      item.brand.includes(keyWord) ||
+      item.tags.includes(keyWord)
+  );
+  console.log(productsByKeyWord);
+}
+document
+  .querySelector(".search__input")
+  .addEventListener("change", searchByKey);
+
+document.querySelector(".search__btn").addEventListener("click", function () {
+  document.querySelector(".search__input").value = "";
 });
