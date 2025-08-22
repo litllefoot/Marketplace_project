@@ -175,6 +175,7 @@ function deleteMakeFillTop20Cards(arrProduct) {
 
   fillProductCards(arrProduct);
 }
+
 function displayAddBtn() {
   let btnAdd = document.querySelector(".product__main__btn-add");
   let cardDisplayed = document.querySelectorAll(".goods__item").length;
@@ -212,6 +213,9 @@ fillTopXProductByRating();
 
 async function filterByCategory(e) {
   if (e.target.classList.contains("product__filters__item__category")) {
+    if (document.querySelector(".search__input").value !== "") {
+      document.querySelector(".search__input").value = "";
+    }
     const allProducts = await getAllProducts();
     const sortedProductsByRating = sortProductsByRating(allProducts);
 
@@ -274,17 +278,19 @@ document
   .addEventListener("click", addNext20Products);
 
 //Кнопка Clear
+function clearBtnNames() {
+  document.querySelectorAll(".product__main__filter_btn")[1].innerText =
+    "Category";
+  document.querySelectorAll(".product__main__filter_btn")[0].innerText =
+    "Subcategory";
+  currentCategory = null;
+}
 document
   .querySelectorAll(".product__main__filter_btn")[2]
   .addEventListener("click", () => {
     document.querySelector(".goods__list").replaceChildren();
     fillTopXProductByRating();
-    document.querySelectorAll(".product__main__filter_btn")[1].innerText =
-      "Category";
-    document.querySelectorAll(".product__main__filter_btn")[0].innerText =
-      "Subcategory";
-    currentCategory = null;
-
+    clearBtnNames();
     displayAddBtn();
   });
 
@@ -341,7 +347,7 @@ async function searchByKey() {
   });
   const keyWord = this.value.toLowerCase();
 
-  const productsIDByKeyWord = sortedProductsToLowerCase
+  const idByKeyWord = sortedProductsToLowerCase
     .filter(
       (item) =>
         item.title.includes(keyWord) ||
@@ -353,12 +359,17 @@ async function searchByKey() {
     .map((item) => item.id);
 
   const ProductFilteredByKeyWord = sortedProductsByRating.filter((item) =>
-    productsIDByKeyWord.includes(item.id)
+    idByKeyWord.includes(item.id)
   );
-  console.log(ProductFilteredByKeyWord);
 
   deleteMakeFillTop20Cards(ProductFilteredByKeyWord);
+  if (ProductFilteredByKeyWord.length === 0) {
+    document.querySelector(".goods__list").innerText = "SORRY! NOT FOUND";
+  }
+
+  clearBtnNames();
 }
+
 document
   .querySelector(".search__input")
   .addEventListener("change", searchByKey);
