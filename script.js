@@ -165,6 +165,16 @@ function fillProductCards(arrOfFilteredProducts) {
   }
 }
 
+function deleteMakeFillTop20Cards(arrProduct) {
+  document.querySelector(".goods__list").replaceChildren();
+
+  let quantityOfProduct = arrProduct.length > 20 ? 20 : arrProduct.length;
+  for (let i = 0; i < quantityOfProduct; i++) {
+    makeGoodsCard();
+  }
+
+  fillProductCards(arrProduct);
+}
 function displayAddBtn() {
   let btnAdd = document.querySelector(".product__main__btn-add");
   let cardDisplayed = document.querySelectorAll(".goods__item").length;
@@ -211,14 +221,7 @@ async function filterByCategory(e) {
       (item) => item.category === selectedСategory
     );
 
-    document.querySelector(".goods__list").replaceChildren();
-
-    let quantityOfProduct = result.length > 20 ? 20 : result.length;
-    for (let i = 0; i < quantityOfProduct; i++) {
-      makeGoodsCard();
-    }
-
-    fillProductCards(result);
+    deleteMakeFillTop20Cards(result);
 
     document.querySelectorAll(".product__main__filter_btn")[1].innerText =
       selectedСategory;
@@ -336,19 +339,25 @@ async function searchByKey() {
       tags: item.tags.join(" ").toLowerCase() ?? "",
     };
   });
-  console.log(sortedProductsByRating);
-  console.log(sortedProductsToLowerCase);
   const keyWord = this.value.toLowerCase();
 
-  const productsByKeyWord = sortedProductsToLowerCase.filter(
-    (item) =>
-      item.title.includes(keyWord) ||
-      item.category.includes(keyWord) ||
-      item.description.includes(keyWord) ||
-      item.brand.includes(keyWord) ||
-      item.tags.includes(keyWord)
+  const productsIDByKeyWord = sortedProductsToLowerCase
+    .filter(
+      (item) =>
+        item.title.includes(keyWord) ||
+        item.category.includes(keyWord) ||
+        item.description.includes(keyWord) ||
+        item.brand.includes(keyWord) ||
+        item.tags.includes(keyWord)
+    )
+    .map((item) => item.id);
+
+  const ProductFilteredByKeyWord = sortedProductsByRating.filter((item) =>
+    productsIDByKeyWord.includes(item.id)
   );
-  console.log(productsByKeyWord);
+  console.log(ProductFilteredByKeyWord);
+
+  deleteMakeFillTop20Cards(ProductFilteredByKeyWord);
 }
 document
   .querySelector(".search__input")
