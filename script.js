@@ -107,10 +107,10 @@ function dropDownListCategories(event) {
   if (this.children.length > 0) {
     if (this.hasAttribute("open")) {
       this.removeAttribute("open");
-      this.classList.add("product__filters__item__active");
+      this.classList.remove("product__filters__item__active");
     } else {
       this.setAttribute("open", "true");
-      this.classList.remove("product__filters__item__active");
+      this.classList.add("product__filters__item__active");
     }
 
     Array.from(this.children).forEach((item) =>
@@ -331,43 +331,46 @@ document.querySelector(".goods__list").addEventListener("mouseout", (e) => {
   }
 });
 
+// ПОИСК
 async function searchByKey() {
-  const allProducts = await getAllProducts();
-  const sortedProductsByRating = sortProductsByRating(allProducts);
-
-  const sortedProductsToLowerCase = sortedProductsByRating.map((item) => {
-    return {
-      ...item,
-      title: item.title.toLowerCase(),
-      category: item.category.toLowerCase(),
-      description: item.description.toLowerCase() ?? "",
-      brand: item.brand?.toLowerCase() ?? "",
-      tags: item.tags.join(" ").toLowerCase() ?? "",
-    };
-  });
   const keyWord = this.value.toLowerCase();
+  if (keyWord.length > 1) {
+    const allProducts = await getAllProducts();
+    const sortedProductsByRating = sortProductsByRating(allProducts);
 
-  const idByKeyWord = sortedProductsToLowerCase
-    .filter(
-      (item) =>
-        item.title.includes(keyWord) ||
-        item.category.includes(keyWord) ||
-        item.description.includes(keyWord) ||
-        item.brand.includes(keyWord) ||
-        item.tags.includes(keyWord)
-    )
-    .map((item) => item.id);
+    const sortedProductsToLowerCase = sortedProductsByRating.map((item) => {
+      return {
+        ...item,
+        title: item.title.toLowerCase(),
+        category: item.category.toLowerCase(),
+        description: item.description.toLowerCase() ?? "",
+        brand: item.brand?.toLowerCase() ?? "",
+        tags: item.tags.join(" ").toLowerCase() ?? "",
+      };
+    });
 
-  const ProductFilteredByKeyWord = sortedProductsByRating.filter((item) =>
-    idByKeyWord.includes(item.id)
-  );
+    const idByKeyWord = sortedProductsToLowerCase
+      .filter(
+        (item) =>
+          item.title.includes(keyWord) ||
+          item.category.includes(keyWord) ||
+          item.description.includes(keyWord) ||
+          item.brand.includes(keyWord) ||
+          item.tags.includes(keyWord)
+      )
+      .map((item) => item.id);
 
-  deleteMakeFillTop20Cards(ProductFilteredByKeyWord);
-  if (ProductFilteredByKeyWord.length === 0) {
-    document.querySelector(".goods__list").innerText = "SORRY! NOT FOUND";
+    const ProductFilteredByKeyWord = sortedProductsByRating.filter((item) =>
+      idByKeyWord.includes(item.id)
+    );
+
+    deleteMakeFillTop20Cards(ProductFilteredByKeyWord);
+    if (ProductFilteredByKeyWord.length === 0) {
+      document.querySelector(".goods__list").innerText = "SORRY! NOT FOUND";
+    }
+
+    clearBtnNames();
   }
-
-  clearBtnNames();
 }
 
 document

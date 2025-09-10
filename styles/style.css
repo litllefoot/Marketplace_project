@@ -339,6 +339,10 @@ img {
   padding: 30px;
   background-color: var(--light-blue-color);
   border: none;
+  outline: none;
+}
+.search__input:focus {
+  border: 1.5px solid var(--dark-grey-color);
 }
 .search__btn {
   border: 0px solid var(--white-color);
@@ -536,6 +540,8 @@ img {
 .product__filters {
   padding-inline: 17px;
   padding-block: 20px;
+  position: sticky;
+  top: 0px;
 }
 .product__filters__list {
   font-weight: 600;

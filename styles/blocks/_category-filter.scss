@@ -1,6 +1,8 @@
 .product__filters {
   padding-inline: 17px;
   padding-block: 20px;
+  position: sticky;
+  top: 0px;
 
   &__list {
     font-weight: 600;

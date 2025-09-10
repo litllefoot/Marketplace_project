@@ -11,7 +11,12 @@
     padding: 30px;
     background-color: var(--light-blue-color);
     border: none;
+    outline: none;
+    &:focus {
+      border: 1.5px solid var(--dark-grey-color);
+    }
   }
+
   &__btn {
     border: 0px solid var(--white-color);
     background-color: var(--white-color);
