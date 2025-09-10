@@ -250,6 +250,8 @@ async function addNext20Products() {
     productToShow = sortedProductsByRating.filter(
       (item) => item.category === currentCategoryGlobal
     );
+  } else if (searchKeyGlobal) {
+    productToShow = searchKeyGlobal;
   }
 
   let count = 20;
