@@ -375,7 +375,10 @@ async function searchByKey() {
     deleteMakeFillTop20Cards(ProductFilteredByKeyWord);
 
     if (ProductFilteredByKeyWord.length === 0) {
-      document.querySelector(".goods__list").innerText = "SORRY! NOT FOUND";
+      let sorryMessage = document.createElement("div");
+      sorryMessage.classList.add("sorry-message");
+      sorryMessage.innerText = "SORRY! NOT FOUND =(";
+      document.querySelector(".goods__list").appendChild(sorryMessage);
     }
 
     clearBtnNames();

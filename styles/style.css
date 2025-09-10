@@ -590,4 +590,13 @@ img {
 }
 .product__filters__item__category:hover {
   color: var(--blue-color);
+}
+
+.sorry-message {
+  color: var(--blue-color);
+  font-weight: 600;
+  text-align: center;
+  grid-column-start: 1;
+  grid-column-end: 6;
+  padding-top: var(--btn-hight-small);
 }/*# sourceMappingURL=style.css.map */
