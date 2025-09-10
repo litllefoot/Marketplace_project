@@ -11,7 +11,7 @@ async function getAllProducts() {
   allProductsGlobal = data.products;
   return allProductsGlobal;
 }
-
+//_______________________ПОСТРОЕНИЕ КАТЕГОРИЙ______________________________________________________________
 const shopCategories = {
   "beauty and health": ["beauty", "fragrances", "skin-care"],
   clothes: [
@@ -119,6 +119,7 @@ function dropDownListCategories(event) {
     );
   }
 }
+//________________________________________________________________________________________________________
 
 function sortProductsByRating(products) {
   return products.toSorted((a, b) => b.rating - a.rating);
