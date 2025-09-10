@@ -1,5 +1,6 @@
 let allProductsGlobal = null;
-let currentCategory = null;
+let currentCategoryGlobal = null;
+let searchKeyGlobal = null;
 
 async function getAllProducts() {
   if (allProductsGlobal) return allProductsGlobal;
@@ -179,12 +180,16 @@ function deleteMakeFillTop20Cards(arrProduct) {
 function displayAddBtn() {
   let btnAdd = document.querySelector(".product__main__btn-add");
   let cardDisplayed = document.querySelectorAll(".goods__item").length;
-  if (currentCategory) {
+  if (currentCategoryGlobal) {
     let categoryLength = allProductsGlobal.filter(
-      (item) => item.category === currentCategory
+      (item) => item.category === currentCategoryGlobal
     ).length;
 
     categoryLength > cardDisplayed
+      ? (btnAdd.style.display = "block")
+      : (btnAdd.style.display = "none");
+  } else if (searchKeyGlobal) {
+    searchKeyGlobal.length > cardDisplayed
       ? (btnAdd.style.display = "block")
       : (btnAdd.style.display = "none");
   } else {
@@ -204,7 +209,7 @@ async function fillTopXProductByRating(x = 20) {
   }
 
   fillProductCards(top20bestRatingProducts);
-  currentCategory = null;
+  currentCategoryGlobal = null;
 
   displayAddBtn();
 }
@@ -220,7 +225,8 @@ async function filterByCategory(e) {
     const sortedProductsByRating = sortProductsByRating(allProducts);
 
     let selectedСategory = e.target.innerText;
-    currentCategory = selectedСategory;
+    currentCategoryGlobal = selectedСategory;
+    searchKeyGlobal = null;
     let result = sortedProductsByRating.filter(
       (item) => item.category === selectedСategory
     );
@@ -240,9 +246,9 @@ async function addNext20Products() {
   const sortedProductsByRating = sortProductsByRating(allProducts);
   let productToShow = sortedProductsByRating;
 
-  if (currentCategory) {
+  if (currentCategoryGlobal) {
     productToShow = sortedProductsByRating.filter(
-      (item) => item.category === currentCategory
+      (item) => item.category === currentCategoryGlobal
     );
   }
 
@@ -283,8 +289,10 @@ function clearBtnNames() {
     "Category";
   document.querySelectorAll(".product__main__filter_btn")[0].innerText =
     "Subcategory";
-  currentCategory = null;
+  currentCategoryGlobal = null;
+  searchKeyGlobal = null;
 }
+
 document
   .querySelectorAll(".product__main__filter_btn")[2]
   .addEventListener("click", () => {
@@ -294,7 +302,7 @@ document
     displayAddBtn();
   });
 
-// Функции пролистывания фото при наведении
+// ___________________________________Функции пролистывание фото при наведении__________________________________
 
 async function isImageAvailable(url) {
   try {
@@ -331,7 +339,7 @@ document.querySelector(".goods__list").addEventListener("mouseout", (e) => {
   }
 });
 
-// ПОИСК
+// _________________________________ПОИСК_________________________________________________________
 async function searchByKey() {
   const keyWord = this.value.toLowerCase();
   if (keyWord.length > 1) {
@@ -365,11 +373,14 @@ async function searchByKey() {
     );
 
     deleteMakeFillTop20Cards(ProductFilteredByKeyWord);
+
     if (ProductFilteredByKeyWord.length === 0) {
       document.querySelector(".goods__list").innerText = "SORRY! NOT FOUND";
     }
 
     clearBtnNames();
+    searchKeyGlobal = ProductFilteredByKeyWord;
+    displayAddBtn();
   }
 }
 
